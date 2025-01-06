@@ -1,3 +1,7 @@
+# DeGoede added
+examples/exampleout/
+examples/exampleout.h5
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

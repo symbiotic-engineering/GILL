@@ -5,4 +5,6 @@ Nate - njd76@cornell.edu
 
 MIT License
 
-Describe the file structure and how to run the code
+The src folder contains all required scripts. The "write" scripts create the necessary input files for NEMOH. The scripts ending in nopopup are rewrites of some WEC-Sim code that had built in popups, the popups make them unable to run in -nojvm mode. The subfolder in src named geometries contains the write scripts for different geometry input files. Currently, there is only a box, but if you'd like to contribute I'd be happy to add others, or you can make your own elsewhere. 
+
+The examples folder shows how to use the code. You can run the example code by typing run examples/box_example into a MATLAB command window.
