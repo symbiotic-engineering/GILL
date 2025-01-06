@@ -1,14 +1,8 @@
-# sea-lab-template
-A template repository for all SEA Lab projects
+# GILL
+Used to communicate between Nemoh and WEC-Sim. Requires both Nemoh and WEC-Sim for effective use. Right now can only make boxes, but could be modified to accommodate other shapes.
 
-Describe your project here
+Nate - njd76@cornell.edu
 
-Provide a citation to the corresponding paper
-
-Provide the authors names and emails
-
-State the license type
+MIT License
 
 Describe the file structure and how to run the code
-
-Include a funding acknowledgement (this is required for most grants, ie NSF has specific template text that must go here)
