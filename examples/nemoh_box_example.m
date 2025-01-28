@@ -45,15 +45,20 @@ system(['solver ',projdir]);
 system(['postProc ',projdir]);
 
 % BEMIO
-tic
 disp('Now writing to h5...')
 hydro = struct();
 hydro = readNEMOH_nopopup(hydro,'exampleout');
+tic
 hydro = radiationIRF_nopopup(hydro,20,[],[],[],[]);
+toc
+tic
 hydro = radiationIRFSS_nopopup(hydro,[],[]);
+toc
+tic
 hydro = excitationIRF_nopopup(hydro,20,[],[],[],[]);
+toc
 for ii=1:hydro.Nb
 	hydro.body{ii} = ['body',int2str(ii)];
 end
 writeBEMIOH5_nopopup(hydro)
-toc
+
