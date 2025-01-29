@@ -29,11 +29,9 @@ def dict2struct(py_dict):
 
 def capy2struct(hydro, dataset, V, cb, cg):
     # Naming Parameters
-    hydro["body"] = dataset["body_name"].values
-    hydro["body"] = 'flap'
+    hydro["body"] = str(dataset["body_name"].values)
     hydro["code"] = 'capytaine'
-    hydro["file"] = dataset["body_name"].values
-    hydro["file"] = 'flap'
+    hydro["file"] = str(dataset["body_name"].values)
     
 	# Plot Parameters (convert to matlab.double for arrays)
     hydro["plotDofs"] = matlab.double(np.array([]))

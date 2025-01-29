@@ -56,7 +56,6 @@ n = 0;
 hydro.ra_K = nan(sum(hydro.dof), sum(hydro.dof), length(t));
 for i = 1:sum(hydro.dof)
     for j = 1:sum(hydro.dof)
-        disp(sum(hydro.dof))
         ra_B = interp1(hydro.w,squeeze(hydro.B(i,j,:)),w);
         hydro.ra_K(i,j,:) = (2/pi)*trapz(w,ra_B.*(cos(w.*t(:)).*w), 2);
         n = n+1;
