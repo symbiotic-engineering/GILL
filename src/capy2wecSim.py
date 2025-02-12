@@ -30,7 +30,7 @@ def dict2struct(py_dict):
 def capy2struct(hydro, dataset, V, cb, cg):
     # Naming Parameters
     hydro["body"] = str(dataset["body_name"].values)
-    hydro["code"] = 'capytaine'
+    hydro["code"] = 'CAPYTAINE'
     hydro["file"] = str(dataset["body_name"].values)
     
 	# Plot Parameters (convert to matlab.double for arrays)
@@ -55,7 +55,7 @@ def capy2struct(hydro, dataset, V, cb, cg):
     hydro["Vo"] = matlab.double([V])  # If scalar, use list or array
     hydro["cb"] = matlab.double([cb])  # If scalar, use list or array
     hydro["cg"] = matlab.double([cg])  # If scalar, use list or array
-    hydro["K_hs"] = matlab.double(dataset["hydrostatic_stiffness"].values.tolist())
+    hydro["Khs"] = matlab.double(dataset["hydrostatic_stiffness"].values.tolist())
     hydro["Ainf"] = matlab.double(dataset['added_mass'].values[-1].tolist())
 
     # Radiation Results
