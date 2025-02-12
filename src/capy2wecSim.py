@@ -27,18 +27,6 @@ def dict2struct(py_dict):
 			mat_struct[key] = value
 	return mat_struct
 
-'''def build_full_matrix(coef, dofs, Nf, omega_dependant = True):
-    full_matrix = np.zeros((6,6,Nf))
-    if 'Surge' in dofs:
-        full_matrix[0,0,:] = coef[0,0,:]
-        if 'Sway' in dofs:
-            full_matrix[0,1,:] = coef[0,1,:]
-            full_matrix[1,0,:] = coef[1,0,:]
-            if 'Heave' in dofs:
-                full_matrix[0,2,:] = coef[0,2,:]
-                full_matrix[2,0,:] = coef[2,0,:]
-                if 'Roll' in dofs:'''
-
 def build_full_matrix(coef, dofs, Nf, omega_dependant=True, radiation=True):
     # Initialize the full matrix
     if omega_dependant:
