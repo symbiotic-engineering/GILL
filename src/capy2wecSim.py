@@ -28,17 +28,19 @@ def dict2struct(py_dict):
 	return mat_struct
 
 def build_full_matrix(coef, dofs, Nf, omega_dependant=True, radiation=True):
+    dtype = np.complex128 if np.iscomplexobj(coef) else np.float64
+
     # Initialize the full matrix
     if omega_dependant:
         if radiation:
-            full_matrix = np.zeros((6, 6, Nf))
+            full_matrix = np.zeros((6, 6, Nf), dtype=dtype)
         else:
-            full_matrix = np.zeros((6, 1, Nf))
+            full_matrix = np.zeros((6, 1, Nf), dtype=dtype)
     else:
         if radiation:
-            full_matrix = np.zeros((6, 6))
+            full_matrix = np.zeros((6, 6), dtype=dtype)
         else:
-            full_matrix = np.zeros((6, 1))
+            full_matrix = np.zeros((6, 1), dtype=dtype)
     
     # Define mapping of DOFs to indices in the full_matrix
     dof_indices = {
@@ -116,6 +118,7 @@ def capy2struct(hydro, dataset, V, cb, cg):
 
     # Excitation, Froude-Krylov, and Diffraction Forces
     exF = dataset['excitation_force'].values[0:-1].reshape(hydro["dof"],1,hydro["Nf"])
+    exF = exF.real + (-exF.imag)*1j
     exF = build_full_matrix(exF, dataset["influenced_dof"].values, hydro["Nf"], radiation=False)
     hydro["ex_re"] = matlab.double(np.real(exF).tolist())
     hydro["ex_im"] = matlab.double(np.imag(exF).tolist())
@@ -123,6 +126,7 @@ def capy2struct(hydro, dataset, V, cb, cg):
     hydro["ex_ph"] = matlab.double(np.angle(exF).tolist())
     
     fkF = dataset['Froude_Krylov_force'].values[0:-1].reshape(hydro["dof"],1,hydro["Nf"])
+    fkF = fkF.real + (-fkF.imag)*1j
     fkF = build_full_matrix(fkF, dataset["influenced_dof"].values, hydro["Nf"], radiation=False)
     hydro["fk_re"] = matlab.double(np.real(fkF).tolist())
     hydro["fk_im"] = matlab.double(np.imag(fkF).tolist())
@@ -130,6 +134,7 @@ def capy2struct(hydro, dataset, V, cb, cg):
     hydro["fk_ph"] = matlab.double(np.angle(fkF).tolist())
 
     scF = dataset['diffraction_force'].values[0:-1].reshape(hydro["dof"],1,hydro["Nf"])
+    scF = scF.real + (-scF.imag)*1j
     scF = build_full_matrix(scF, dataset["influenced_dof"].values, hydro["Nf"], radiation=False)
     hydro["sc_re"] = matlab.double(np.real(scF).tolist())
     hydro["sc_im"] = matlab.double(np.imag(scF).tolist())
