@@ -84,7 +84,7 @@ def capy2struct(hydro, dataset, V, cb, cg):
     hydro["plotDirections"] = matlab.double(np.array([0.0]))
 
     # Hydrodynamic Parameters
-    hydro["dof"] = len(dataset["radiating_dof"].values)
+    hydro["dof"] = 6
     hydro["g"] = matlab.double(dataset["g"].values)
     hydro["rho"] = matlab.double(dataset["rho"].values)
     hydro["Nb"] = matlab.double([1])  # Single value should be passed as list/array to matlab
@@ -109,15 +109,16 @@ def capy2struct(hydro, dataset, V, cb, cg):
     hydro["Ainf"] = matlab.double(Ainf.tolist())
 
     # Radiation Results
-    A = dataset['added_mass'].values[0:-1].reshape(hydro["dof"],hydro["dof"],hydro["Nf"])
+    dofs_in_bem =  len(dataset["radiating_dof"].values)
+    A = dataset['added_mass'].values[0:-1].reshape(dofs_in_bem,dofs_in_bem,hydro["Nf"])
     A = build_full_matrix(A, dataset["radiating_dof"].values, hydro["Nf"])
     hydro["A"] = matlab.double(A.tolist())
-    B = dataset['radiation_damping'].values[0:-1].reshape(hydro["dof"],hydro["dof"],hydro["Nf"])
+    B = dataset['radiation_damping'].values[0:-1].reshape(dofs_in_bem,dofs_in_bem,hydro["Nf"])
     B = build_full_matrix(B, dataset["radiating_dof"].values, hydro["Nf"])
     hydro["B"] = matlab.double(B.tolist())
 
     # Excitation, Froude-Krylov, and Diffraction Forces
-    exF = dataset['excitation_force'].values[0:-1].reshape(hydro["dof"],1,hydro["Nf"])
+    exF = dataset['excitation_force'].values[0:-1].reshape(dofs_in_bem,1,hydro["Nf"])
     exF = exF.real + (-exF.imag)*1j
     exF = build_full_matrix(exF, dataset["influenced_dof"].values, hydro["Nf"], radiation=False)
     hydro["ex_re"] = matlab.double(np.real(exF).tolist())
@@ -125,7 +126,7 @@ def capy2struct(hydro, dataset, V, cb, cg):
     hydro["ex_ma"] = matlab.double(np.abs(exF).tolist())
     hydro["ex_ph"] = matlab.double(np.angle(exF).tolist())
     
-    fkF = dataset['Froude_Krylov_force'].values[0:-1].reshape(hydro["dof"],1,hydro["Nf"])
+    fkF = dataset['Froude_Krylov_force'].values[0:-1].reshape(dofs_in_bem,1,hydro["Nf"])
     fkF = fkF.real + (-fkF.imag)*1j
     fkF = build_full_matrix(fkF, dataset["influenced_dof"].values, hydro["Nf"], radiation=False)
     hydro["fk_re"] = matlab.double(np.real(fkF).tolist())
@@ -133,7 +134,7 @@ def capy2struct(hydro, dataset, V, cb, cg):
     hydro["fk_ma"] = matlab.double(np.abs(fkF).tolist())
     hydro["fk_ph"] = matlab.double(np.angle(fkF).tolist())
 
-    scF = dataset['diffraction_force'].values[0:-1].reshape(hydro["dof"],1,hydro["Nf"])
+    scF = dataset['diffraction_force'].values[0:-1].reshape(dofs_in_bem,1,hydro["Nf"])
     scF = scF.real + (-scF.imag)*1j
     scF = build_full_matrix(scF, dataset["influenced_dof"].values, hydro["Nf"], radiation=False)
     hydro["sc_re"] = matlab.double(np.real(scF).tolist())
