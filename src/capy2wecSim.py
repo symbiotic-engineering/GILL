@@ -15,9 +15,9 @@ def struct2dict(mat_struct):
             py_dict[key] = value
     return py_dict
 
-def dict2struct(py_dict):
+def dict2struct(py_dict,eng):
 	"""Recursively converts a Python dictionary to a MATLAB struct."""
-	mat_struct = matlab.struct()
+	mat_struct = eng.struct()
 	for key, value in py_dict.items():
 		if isinstance(value, dict):  # Recursively convert nested dictionaries
 			mat_struct[key] = dict2struct(value)
