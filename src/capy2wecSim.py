@@ -98,9 +98,9 @@ def capy2struct(hydro, dataset, V, cb, cg):
     hydro["theta"] = matlab.double(dataset["wave_direction"].values)
 
     # Basic Hydro Parameters
-    hydro["Vo"] = matlab.double([V])  # If scalar, use list or array
-    hydro["cb"] = matlab.double([cb])  # If scalar, use list or array
-    hydro["cg"] = matlab.double([cg])  # If scalar, use list or array
+    hydro["Vo"] = matlab.double([V])    # If scalar, use list or array
+    hydro["cb"] = matlab.double(cb)     # If scalar, use list or array
+    hydro["cg"] = matlab.double(cg)     # If scalar, use list or array
     Khs = dataset["hydrostatic_stiffness"].values
     Khs = build_full_matrix(Khs, dataset["radiating_dof"].values, 0, omega_dependant=False)
     hydro["Khs"] = matlab.double(Khs.tolist())
